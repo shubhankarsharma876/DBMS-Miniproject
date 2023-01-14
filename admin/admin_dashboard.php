@@ -70,6 +70,9 @@
 			<li class="nav-item">
 				<a href="issue_book.php" class="nav-link">Issue Book</a>
 			</li>
+			<li class="nav-item">
+				<a href="delay_display.php" class="nav-link">Delay Record</a>
+			</li>
 		</ul>
 	</div>
 </nav>
