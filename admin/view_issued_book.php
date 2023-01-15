@@ -88,7 +88,7 @@
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
-		<form>
+		<form id="PrintTable">
 			<table class="table-bordered" width="900px" style="text-align: center">
 				<tr>
 					<th>Name:</th>
@@ -115,6 +115,16 @@
 				?>
 			</table>
 		</form>
+		<script>
+			function printFunction() {
+ 			var printContents = document.getElementById('PrintTable').innerHTML;
+			var originalContents = document.body.innerHTML;
+			document.body.innerHTML = printContents;
+			window.print();
+			document.body.innerHTML = originalContents;
+}
+</script>
+<input type="button" value="Print" onclick="printFunction()">
 	</div>
 	<div class="col-md-2"></div>
 </div>

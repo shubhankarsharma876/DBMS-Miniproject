@@ -69,7 +69,7 @@
 				</div>
 			</li>
 			<li class="nav-item">
-				<a href="issue_book.php" class="nav-link">Issue Book</a>
+				<a href="issue_books.php" class="nav-link">Issue Book</a>
 			</li>
 			<li class="nav-item">
 				<a href="delay_display.php" class="nav-link">Delay Record</a>
@@ -127,10 +127,41 @@
 </html>
 
 <?php
-	if(isset($_POST['issue_book'])){
+	if(isset($_POST['issue_book'],$_POST['student_id'])){
 		$connection = mysqli_connect("localhost","root","");
 		$db = mysqli_select_db($connection,"lms");
-		$query = "insert into issued_books values(null,$_POST[book_no],'$_POST[book_name]','$_POST[book_author]',$_POST[student_id],1,'$_POST[issue_date]')";
+
+
+		function dnd($connection){
+	$query = "insert into issued_books values(null,$_POST[book_no],'$_POST[book_name]','$_POST[book_author]',$_POST[student_id],1,'$_POST[issue_date]')";
 		$query_run = mysqli_query($connection,$query);
-	}
+		return true;
+
+}
+			
+// function asrt($connection,$student_id) {
+// 	$query = "SELECT COUNT(*) FROM issued_books i WHERE i.student_id=$_POST[student_id]";
+// 	$result = mysqli_query($connection, $query);
+// 		$query_run = dnd($connection);
+// 		$row = mysqli_fetch_row($result);
+// 		assert(($row[0]<=3 && $query_run),"3 books issued already!!!");
+		
+// }
+
+function asrt($connection,$student_id) {
+    $query1 = "SELECT COUNT(*) FROM issued_books i WHERE i.student_id=$student_id";
+    $result = mysqli_query($connection, $query1);
+    if($result){
+        $row = mysqli_fetch_row($result);
+		if($row[0]<=3){
+            assert(dnd(),"3 books issued already!!!");
+        }
+    }else{
+        assert(false,"error in query execution");
+    }
+}
+
+$student_id = $_POST['student_id'];
+asrt($connection,$student_id);
+}
 ?>

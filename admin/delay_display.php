@@ -87,7 +87,7 @@
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
-		<form>
+		<form id="PrintTable">
 			<table class="table-bordered" width="900px" style="text-align: center">
 				<tr>
 					<th>User ID:</th>
@@ -99,14 +99,14 @@
 				<?php
 					$query_run = mysqli_query($connection,$query);
 					while($row = mysqli_fetch_assoc($query_run)){
-						$user_id = $row['user_id'];
+						$issue_id = $row['issue_id'];
 						$name = $row['name'];
 						$total_days = $row['total_days'];
 						$total_fine = $row['total_fine'];
 						$book_id = $row['book_id'];
 				?>
 						<tr>
-							<td><?php echo $user_id;?></td>
+							<td><?php echo $issue_id;?></td>
 							<td><?php echo $name;?></td>
 							<td><?php echo $total_days;?></td>
 							<td><?php echo $total_fine;?></td>
@@ -118,6 +118,16 @@
 				
 			</table>
 		</form>
+		<script>
+			function printFunction() {
+ 			var printContents = document.getElementById('PrintTable').innerHTML;
+			var originalContents = document.body.innerHTML;
+			document.body.innerHTML = printContents;
+			window.print();
+			document.body.innerHTML = originalContents;
+}
+</script>
+		<input type="button" value="Print" onclick="printFunction()">
 
 </div>
 	
