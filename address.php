@@ -9,7 +9,7 @@ if($_SERVER['REQUEST_METHOD']== 'POST')
   $address = $_POST["address"];
   $query = "update users set password = '".$address."' where email = '$_SESSION[email]'";
 
-$result =mysqli_query($connection,$query);;
+$result =mysqli_query($connection,$query);
 // check for table creation success
 if($result)
 {
