@@ -5,7 +5,7 @@
 	$book_name = "";
 	$author = "";
 	$book_no = "";
-	$query = "select book_name,book_author,book_no from issued_books where student_id = $_SESSION[id] and status = 1";
+	$query = "select book_name,book_author,book_no from issued_books where student_id = $_SESSION[id] and stat = 1";
 ?>
 <!DOCTYPE html>
 <html>
@@ -41,7 +41,7 @@
 						<a class="dropdown-item" href="change_password.php">Change Password</a>
 					</div>
 				</li>
-				<li class="nav-item"><a class="nav-link" href="../logout.php">Logout</a></li>
+				<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
 			</ul>
 		</div>
 	</nav>

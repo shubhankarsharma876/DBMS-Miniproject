@@ -9,6 +9,7 @@
 	$query = "select * from users where email = '$_SESSION[email]'";
 	$query_run = mysqli_query($connection,$query);
 	while($row = mysqli_fetch_assoc($query_run)){
+		$id = $row['id'];
 		$name = $row['name'];
 		$email = $row['email'];
 		$mobile = $row['mobile'];
@@ -58,18 +59,6 @@
 		<div class="col-md-4"></div>
 		<div class="col-md-4">
 			<form action="update.php" method="post">
-				<div class="form-group">
-					<label>Name:</label>
-					<input type="text" class="form-control" value="<?php echo $name;?>" name="name">
-				</div>
-				<div class="form-group">
-					<label>Email:</label>
-					<input type="text" class="form-control" value="<?php echo $email;?>" name="email">
-				</div>
-				<div class="form-group">
-					<label>Mobile:</label>
-					<input type="text" class="form-control" value="<?php echo $mobile;?>" name="mobile">
-				</div>
 				<div class="form-group">
 					<label>Address:</label>
 					<textarea rows="3" cols="40" name="address" class="form-control"><?php echo $address;?></textarea>

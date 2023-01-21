@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 14, 2023 at 11:42 AM
+-- Generation Time: Jan 19, 2023 at 04:16 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -61,10 +61,10 @@ CREATE TABLE `authors` (
 --
 
 INSERT INTO `authors` (`author_id`, `author_name`, `No_Of_Books`, `Origin`, `Gender`) VALUES
-(102, 'M D Guptaa', 0, '', '0'),
-(103, 'Chetan Bhagat', 0, '', '0'),
-(104, 'Munshi Prem Chand', 10, 'INDIA', 'M'),
-(109, ' jaishankar', 5, 'INDIA', 'M');
+(101, ' jaishankar', 5, 'INDIA', 'M'),
+(102, 'M D Guptaa', 3, 'INDIA', 'M'),
+(103, 'Chetan Bhagat', 4, 'INDIA', 'M'),
+(104, 'Munshi Prem Chand', 10, 'INDIA', 'M');
 
 -- --------------------------------------------------------
 
@@ -86,9 +86,10 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`book_id`, `book_name`, `author_id`, `cat_id`, `book_no`, `book_price`) VALUES
-(1, 'Software engineering', 101, 1, 4518, 270),
+(1, 'Software engineering', 102, 1, 4518, 270),
 (2, 'Data structure', 102, 2, 6541, 300),
-(9, 'The Indian Way', 0, 0, 8, 700);
+(9, 'The Indian Way', 101, 1, 8, 700),
+(10, 'Lectures from Colombo to Almora', 0, 0, 1100, 101);
 
 -- --------------------------------------------------------
 
@@ -133,7 +134,7 @@ CREATE TABLE `delay` (
 --
 
 INSERT INTO `delay` (`issue_id`, `name`, `total_days`, `total_fine`, `book_id`) VALUES
-(7, '', 15, 150, 2);
+(2, '', 15, 150, 2);
 
 -- --------------------------------------------------------
 
@@ -147,7 +148,7 @@ CREATE TABLE `issued_books` (
   `book_name` varchar(200) NOT NULL,
   `book_author` varchar(200) NOT NULL,
   `student_id` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
+  `stat` int(11) NOT NULL,
   `issue_date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -155,13 +156,25 @@ CREATE TABLE `issued_books` (
 -- Dumping data for table `issued_books`
 --
 
-INSERT INTO `issued_books` (`s_no`, `book_no`, `book_name`, `book_author`, `student_id`, `status`, `issue_date`) VALUES
-(1, 6541, 'Data structure', 'D S Gupta', 4, 1, '0000-00-00'),
-(18, 7845, 'half Girlfriend', 'Chetan Bhagat', 7, 1, '2020-04-22'),
-(19, 465, 'The Indian Way', 'jaishankar', 7, 1, '2323-01-13'),
+INSERT INTO `issued_books` (`s_no`, `book_no`, `book_name`, `book_author`, `student_id`, `stat`, `issue_date`) VALUES
+(1, 6541, 'Data structure', 'D S Gupta', 1, 1, '0000-00-00'),
+(18, 7845, 'half Girlfriend', 'Chetan Bhagat', 2, 1, '2020-04-22'),
+(19, 465, 'The Indian Way', 'jaishankar', 11, 1, '2323-01-13'),
 (28, 500, 'The Indian Way', 'jaishankar', 8, 1, '2023-01-14'),
-(29, 5005, 'half girlfriend', 'Chetan Bhagat', 420, 1, '2023-01-13'),
-(34, 0, '', '', 0, 0, '2023-01-14');
+(29, 5005, 'half girlfriend', 'Chetan Bhagat', 11, 1, '2023-01-13'),
+(110, 22, 'Data Structures', 'M D Guptaa', 12, 1, '2023-01-18');
+
+--
+-- Triggers `issued_books`
+--
+DELIMITER $$
+CREATE TRIGGER `checkvalid` BEFORE INSERT ON `issued_books` FOR EACH ROW BEGIN
+    IF (SELECT COUNT(*) FROM user WHERE user.student_id = NEW.student_id) > 0 THEN
+        INSERT INTO issued_books(s_no,book_no,book_name,book_author,student_id,stat,issue_date) VALUES (null,NEW.book_no,NEW.book_name,NEW.book_author,NEW.student_id,1,NEW.issue_date);
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -183,11 +196,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `mobile`, `address`) VALUES
-(4, 'user', 'user@gmail.com', 'user@1234', 2147483644, 'XYZ Coloney, PQR Nagar , Jaipur'),
-(7, 'hemant', 'hemant@gmail.com', 'hemant@123', 2147483644, 'XYZ Coloney, PQR Nagar , Jaipur'),
-(8, 'shubhankar', 'shubhankarsharma22@gmail.com', '123', 2147483647, 'Sumukha Tropical Garden,\r\nFlat no 312, North Block, Kodichikanahalli main road Opposite to Vaikunthanarayana Swamy temple Bilekahalli'),
-(10, 'shubh', 's363@gmail.com', '1234', 2147483647, 'Sumukha Tropical Garden,\r\nFlat no 312, North Block, Kodichikanahalli main road Opposite to Vaikunthanarayana Swamy temple Bilekahalli'),
-(11, 'shravanthmr9602@gmail.com', 'shravanthmr9602@gmail.com', '123', 5446, 'asdf');
+(1, 'user', 'user@gmail.com', 'user@1234', 2147483644, ' Jaipur'),
+(2, 'hemant', 'hemant@gmail.com', 'hemant@123', 2147483644, 'Hubli'),
+(8, 'shubhankar', 'shubhankarsharma22@gmail.com', '123', 2147483647, 'Bilekahalli'),
+(11, 'shravanthmr9602@gmail.com', 'shravanthmr9602@gmail.com', '123', 544652351, 'Bengaluru'),
+(12, 'Sanskriti Singh', 'sanskriti123@gmail.com', '123', 1112223334, 'Bengaluru');
 
 --
 -- Indexes for dumped tables
@@ -228,8 +241,7 @@ ALTER TABLE `delay`
 -- Indexes for table `issued_books`
 --
 ALTER TABLE `issued_books`
-  ADD PRIMARY KEY (`s_no`),
-  ADD UNIQUE KEY `UNK` (`book_no`);
+  ADD PRIMARY KEY (`s_no`);
 
 --
 -- Indexes for table `users`
@@ -258,7 +270,7 @@ ALTER TABLE `authors`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -270,13 +282,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `issued_books`
 --
 ALTER TABLE `issued_books`
-  MODIFY `s_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `s_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
@@ -293,4 +305,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-SELECT COUNT(student_id) FROM issue_books GROUP BY student_id

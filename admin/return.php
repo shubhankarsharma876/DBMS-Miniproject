@@ -1,6 +1,13 @@
 <?php
 	require('functions.php');
 	session_start();
+	$connection = mysqli_connect("localhost","root","");
+	$db = mysqli_select_db($connection,"lms");
+	$book_name = "";
+	$author = "";
+	$book_no = "";
+	$student_name = "";
+	$query = "select issued_books.s_no,issued_books.book_name,issued_books.book_author,issued_books.book_no,users.name from issued_books left join users on issued_books.student_id = users.id";
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,7 +30,7 @@
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="admin_dashboard.php">Library Management System(LMS)</a>
+				<a class="navbar-brand" href="index.php">Library Management System(LMS)</a>
 			</div>
 			<font style="color: white"><span><strong>Welcome: <?php echo $_SESSION['name'];?></strong></span></font>
 			<font style="color: white"><span><strong>Email: <?php echo $_SESSION['email'];?></strong></span></font>
@@ -40,7 +47,7 @@
 			</ul>
 		</div>
 	</nav>
-	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd">
 	<div class="container-fluid">
 		<ul class="nav navbar-nav navbar-center">
 			<li class="nav-item">
@@ -57,7 +64,7 @@
 				<a class="nav-link dropdown-toggle" data-toggle="dropdown">Category</a>
 				<div class="dropdown-menu">
 					<a href="add_cat.php" class="dropdown-item">Add New Category</a>
-					<a href="manage_cat" class="dropdown-item">Manage Category</a>
+					<a href="manage_cat.php" class="dropdown-item">Manage Category</a>
 				</div>
 			</li>
 			<li class="nav-item dropdown">
@@ -70,7 +77,7 @@
 			<li class="nav-item">
 				<a href="issue_book.php" class="nav-link">Issue Book</a>
 			</li>
-			<li class="nav-item">
+            <li class="nav-item">
 				<a href="return.php" class="nav-link">Return</a>
 			</li>
 			<li class="nav-item">
@@ -80,42 +87,45 @@
 	</div>
 </nav>
 
-
-	<span><marquee>This is library Management System. Library opens at 8:00 AM and close at 8:00 PM</marquee></span><br><br>
-	<div class="row">
-		<div class="col-md-4"></div>
-		<div class="col-md-4">
-			<form action="" method="post">
-				<div class="form-group">
-					<label>Author Name:</label>
-					<input type="text" name="author_name" class="form-control" required="">
-				</div>
-			    <div class="form-group">
-					<label>No Of Books (By Author):</label>
-					<input type="text" name="No_Of_Books" class="form-control" required="">
-				</div>
-				<div class="form-group">
-					<label>Origin:</label>
-					<input type="text" name="Origin" class="form-control" required="">
-				</div>
-				<div class="form-group">
-					<label>Gender:</label>
-					<input type="text" name="Gender" class="form-control" required="">
-				</div>
-				<button class="btn btn-primary" name="add_author">Add Author</button>
-
-			</form>
-		</div>
-		<div class="col-md-4"></div>
+<span><marquee>This is library Management System. Library opens at 8:00 AM and close at 8:00 PM</marquee></span><br><br>
+<div class="row">
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+		<form id="PrintTable">
+			<h3 style='text-align:center'><b>Issued Books</b></h3>
+			<table class="table-bordered" width="900px" style="text-align: center">
+				<tr>
+					<th>Name:</th>
+					<th>Author:</th>
+					<th>Number:</th>
+					<th>Student Name:</th>
+				</tr>
+				<?php
+					$query_run = mysqli_query($connection,$query);
+					while($row = mysqli_fetch_assoc($query_run)){
+                        $s_no = $row['s_no'];
+						$book_name = $row['book_name'];
+						$book_author = $row['book_author'];
+						$book_no = $row['book_no'];
+						$student_name = $row['name'];
+				?>
+						<tr>
+							<td><?php echo $book_name;?></td>
+							<td><?php echo $book_author;?></td>
+							<td><?php echo $book_no;?></td>
+							<td><?php echo $student_name;?></td>
+							<td>
+								<button class="btn" name=""><a href="delete_issue.php?bn=<?php echo $row['book_no'];?>">Delete</a></button>
+							</td>
+						</tr>
+						<?php
+					}
+				?>
+			</table>
+		</form>
 	</div>
+	<div class="col-md-2"></div>
+</div>
+	
 </body>
 </html>
-
-<?php
-	if(isset($_POST['add_author'])){
-		$connection = mysqli_connect("localhost","root","");
-		$db = mysqli_select_db($connection,"lms");
-		$query = "insert into authors values('','$_POST[author_name]',$_POST[No_Of_Books],'$_POST[Origin]','$_POST[Gender]')";
-		$query_run = mysqli_query($connection,$query);
-	}
-?>

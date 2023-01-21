@@ -4,7 +4,7 @@
 	$connection = mysqli_connect("localhost","root","");
 	$db = mysqli_select_db($connection,"lms");
 	$author_name = "";
-	$query = "select * from delay";
+	$query = "select * from returned_table";
 
     // $name = "select U.name from users U , delay D where D.id =U.id "
 ?>
@@ -77,6 +77,9 @@
 				<a href="issue_book.php" class="nav-link">Issue Book</a>
 			</li>
 			<li class="nav-item">
+				<a href="return.php" class="nav-link">Return</a>
+			</li>
+			<li class="nav-item">
 				<a href="delay_display.php" class="nav-link">Delay Record</a>
 			</li>
 		</ul>
@@ -88,32 +91,43 @@
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
 		<form id="PrintTable">
+			<h3 style="text-align:center">Returned Records</h3>
 			<table class="table-bordered" width="900px" style="text-align: center">
 				<tr>
 					<th>User ID:</th>
-					<th>Name:</th>
-					<th>Total Days:</th>
-					<th>Total Fine:</th>
-					<th>Book ID:</th>
+					<th>BOOK NO:</th>
+					<th>BOOK NAME:</th>
+					<th>BOOK AUTHOR:</th>
+					<th>STUDENT ID:</th>
+					<th>STAT:</th>
+					<th>ISSUE DATE:</th>
+					<th>RETURN DATE:</th>
 				</tr>
 				<?php
 					$query_run = mysqli_query($connection,$query);
 					while($row = mysqli_fetch_assoc($query_run)){
-						$issue_id = $row['issue_id'];
-						$name = $row['name'];
-						$total_days = $row['total_days'];
-						$total_fine = $row['total_fine'];
-						$book_id = $row['book_id'];
+						$s_no = $row['s_no'];
+						$book_no = $row['book_no'];
+						$book_name = $row['book_name'];
+						$book_author = $row['book_author'];
+						$student_id = $row['student_id'];
+						$stat = $row['stat'];
+						$issue_date = $row['issue_date'];
+						$returned_date = $row['returned_date']
 				?>
 						<tr>
-							<td><?php echo $issue_id;?></td>
-							<td><?php echo $name;?></td>
-							<td><?php echo $total_days;?></td>
-							<td><?php echo $total_fine;?></td>
-							<td><?php echo $book_id;?></td>
+							<td><?php echo $s_no;?></td>
+							<td><?php echo $book_no;?></td>
+							<td><?php echo $book_name;?></td>
+							<td><?php echo $book_author;?></td>
+							<td><?php echo $student_id;?></td>
+							<td><?php echo $stat;?></td>
+							<td><?php echo $issue_date;?></td>
+							<td><?php echo $returned_date;?></td>
 						</tr>
 						<?php
 					}
+					
 				?>
 				
 			</table>

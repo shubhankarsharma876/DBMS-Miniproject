@@ -78,6 +78,9 @@
 				<a href="issue_book.php" class="nav-link">Issue Book</a>
 			</li>
 			<li class="nav-item">
+				<a href="return.php" class="nav-link">Return</a>
+			</li>
+			<li class="nav-item">
 				<a href="delay_display.php" class="nav-link">Delay Record</a>
 			</li>
 		</ul>
@@ -89,6 +92,7 @@
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
 		<form id="PrintTable">
+			<h3 style='text-align:center'><b>Issued Books</b></h3>
 			<table class="table-bordered" width="900px" style="text-align: center">
 				<tr>
 					<th>Name:</th>
@@ -109,6 +113,7 @@
 							<td><?php echo $book_author;?></td>
 							<td><?php echo $book_no;?></td>
 							<td><?php echo $student_name;?></td>
+
 						</tr>
 						<?php
 					}

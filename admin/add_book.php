@@ -71,6 +71,9 @@
 				<a href="issue_book.php" class="nav-link">Issue Book</a>
 			</li>
 			<li class="nav-item">
+				<a href="return.php" class="nav-link">Return</a>
+			</li>
+			<li class="nav-item">
 				<a href="delay_display.php" class="nav-link">Delay Record</a>
 			</li>
 		</ul>
@@ -87,17 +90,17 @@
 					<input type="text" name="book_name" class="form-control" required="">
 				</div>
 				<div class="form-group">
-					<label>Book Author:</label>
+					<label>Book Author ID:</label>
 					<input type="text" name="book_author" class="form-control" required="">
 				</div>
 
 				<div class="form-group">
-					<label>Category Name:</label>
+					<label>Category No:</label>
 					<input type="text" name="book_cat" class="form-control" required="">
 				</div>
 
 				<div class="form-group">
-					<label>Book No:</label>
+					<label>No Of Books:</label>
 					<input type="text" name="book_no" class="form-control" required="">
 				</div>
 

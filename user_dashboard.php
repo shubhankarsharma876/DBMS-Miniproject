@@ -42,7 +42,7 @@
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown">My Profile</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" href="view_profile.php">View Profile</a>
-						<a class="dropdown-item" href="edit_profile.php"> Edit Profile</a>
+						<a class="dropdown-item" href="address.php"> Edit Profile</a>
 						<a class="dropdown-item" href="change_password.php">Change Password</a>
 					</div>
 				</li>
